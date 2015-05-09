@@ -1,0 +1,162 @@
+scriptId = 'com.rkawt.myo.Rhino3DController'
+scriptTitle = "Rhinoceros Controller"
+scriptDetailsUrl = "http://www.rkawt.com/sa/rhinoceros-controller/"  
+
+description = [[
+
+--Rhinoceros controller lets users enhance the interactivity with Rhinoceros 3d software 
+--through controlling some of Rhino's control features using Myo gesture control armband 
+--such as perspective view port rotation, pan moving and zooming.
+
+-- the Rhinoceros Controller works with both Rhinoceros 5.0 on windows platform and Rhinoceros 5.0 WIP of MacOS platform.
+]]
+ 
+controls = [[
+--Double Tap-- Unlcok and zoom to all extends
+--Wave Left-- Zoom in
+--Wave Right-- Zoom out
+--Spread Fingers-- Pan move the perspective view port    --not functional on WIP version of MacOS--
+--Make Fist-- Rotate the perspective view port           --not functional on WIP version of MacOS--
+--Pan-- Mouse control
+ ]]
+ 
+-- version: 1.1.2
+
+
+
+function onForegroundWindowChange(app, title)
+ 
+	
+    local titleContain = string.match(title, "Perspective")
+	if (titleContain == "Perspective") then 
+    return platform == "Windows" and (app == "Rhino.exe")
+	end
+        if (app == "com.mcneel.rhinoceros") then 
+    return platform == "MacOS" and (app == "com.mcneel.rhinoceros")
+        end
+end
+
+function onPoseEdge(pose, edge)
+    	
+		if (edge == "on") then
+		
+		myo.unlock("hold")
+		myo.notifyUserAction()
+        
+                
+        
+		pose = conditionallySwapWave(pose)	
+			
+			if (pose == "doubleTap" and myo.isUnlocked() == true) then 
+				if platform == "MacOS" then 
+                    myo.vibrate("short")
+                    zoomAllExtend_Mac() 
+                else
+				    myo.vibrate("short")
+				    zoomAllExtend()
+                end
+			end
+			
+			if (pose == "fist") then
+				if platform == "MacOS" then 
+                     -- currently do nothing 
+                else
+				    centre()
+				    rotatePespectiveActive()
+                end
+			end
+			
+			if (pose == "fingersSpread") then
+				if platform == "MacOS" then 
+                    -- currently do nothing
+                else
+				    centre() 
+				    shiftKeyActive()
+				    rotatePespectiveActive()
+                end
+			end
+			
+			if (pose == "rest") then 
+				myo.unlock("timed")
+			end
+			
+			if (pose == "waveOut") then 
+				zoomOUT()
+			end
+			
+			if (pose == "waveIn") then 
+				zoomIN()
+			end
+			
+			
+			
+		end
+	
+		if (edge == "off") then
+        
+			myo.unlock("timed")
+			myo.controlMouse(false);
+			rotatePespectiveInACTVE()
+			shiftKeyInActive()
+                    
+		end
+end
+
+function centre()
+    
+    myo.centerMousePosition();
+    myo.controlMouse(true);
+    myo.vibrate("short")
+    
+end
+
+function conditionallySwapWave(pose)
+    if myo.getArm() == "left" then
+        if pose == "waveIn" then
+            pose = "waveOut"
+        elseif pose == "waveOut" then
+            pose = "waveIn"
+        end
+    end
+    return pose
+end
+
+function rotatePespectiveActive()
+
+    myo.mouse("right", "down")
+    
+end
+
+function rotatePespectiveInACTVE()
+    myo.mouse("right", "up")
+end
+
+function shiftKeyActive()
+	myo.keyboard("right_shift","down")
+end
+
+function shiftKeyInActive()
+	myo.keyboard("right_shift","up")
+end
+
+function zoomAllExtend()
+	myo.keyboard("e","press","control","alt")
+end
+
+function zoomOUT()
+myo.keyboard("pagedown","press")
+end
+
+function zoomIN()
+myo.keyboard("pageup","press")
+end
+
+function activeAppName()
+    return "Rhinoceros"
+end
+
+-- mac functions
+----------------------------------------------------
+function zoomAllExtend_Mac()
+	myo.keyboard("e","press","command","alt")
+end
