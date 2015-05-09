@@ -6,6 +6,6 @@ myMyo.on('fist', function(edge){
     console.log('Clicked!');
 	/*myMyo.mouse('left', 'click')*/
 	/*myMyo.centerMousePosition();*/
-	console.log(myMyo.getArm());
+	console.log(myMyo.getArm());//
     /*myMyo.vibrate();*/
 });
