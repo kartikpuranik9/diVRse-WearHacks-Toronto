@@ -1,0 +1,66 @@
+body{
+}
+
+
+.content{
+	height:100%;
+	width:100%;
+}
+#page1{
+	
+}
+.introText{
+	text-align: justify;
+	margin-left:300px;
+	font-size:18px !important;
+	margin-top: -150px;
+}
+
+#intro{
+	padding-bottom: 50px;
+}
+
+#page2,#page3,#intro{
+	margin-left:5em;
+	margin-right:5em;
+	padding-top:50px;
+		
+}
+.backgroundLogo{
+
+	background-color: #7e7e7e;
+	height: 150px;
+	width: 100%;
+	margin-top: 370px;
+	opacity: 0.2;
+	position: absolute;
+}
+.logo{
+	padding-top:50px;
+	margin-left:1em;
+}
+
+.title{
+	font-family: 'Lucida Sans Unicode','Lucida Grande',sans-serif;;
+	font-size: 50px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+	line-height: 76px;
+	padding-bottom:50px;
+	color:#c52726;
+	letter-spacing:0.3em;
+	float:left;
+}
+
+p {
+	font-family: 'Lucida Sans Unicode','Lucida Grande',sans-serif;;
+	font-size: 16px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 25px;
+	letter-spacing: 0.1em;
+	color:#666666;
+}
+
