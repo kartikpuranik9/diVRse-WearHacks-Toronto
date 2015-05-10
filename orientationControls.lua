@@ -1,6 +1,8 @@
 scriptId = 'com.thalmic.orientationtest'
 scriptTitle = 'Orientation Controls'
 
+count = 0
+
 myo.setLockingPolicy('none')
 
 -- This allows a user to control their cursor using the Myo.
@@ -38,6 +40,22 @@ function conditionallySwapWave(pose)
     return pose
 end
 
+-- Checks compression threshold limit
+function checkChestCompression()
+    xA,yA,zA = myo.getAccelWorld()
+    myo.debug('***')
+    myo.debug(xA)
+    myo.debug(yA)
+    myo.debug(zA) 
+    if (!(-0.1 < zA and zA < 0.1)) then
+        
+            myo.vibrate("medium")
+            myo.debug("Exceeded threshold")
+            
+        end
+    end
+
+
 -- Handle gestures from Myo
 
 function onPoseEdge(pose, edge)
@@ -70,13 +88,15 @@ function onPoseEdge(pose, edge)
 	if pose == "fist" and edge == "off" then
 		myo.notifyUserAction()
 		myo.debug("Right-hand Fist")
+
+        checkChestCompression()
 	end
 	-- global Orientation check
-	--x,y,z = myo.getOrientationWorld()
+	--xP,yP,zP = myo.getOrientationWorld()
 	--myo.debug('***')
-	--myo.debug(x)
-	--myo.debug(y)
-	--myo.debug(z)
+	--myo.debug(xP)
+	--myo.debug(yP)
+	--myo.debug(zP)
 	
 	-- global Acceleration Check
 	--x,y,z = myo.getAccelWorld()
@@ -119,19 +139,27 @@ function onPoseEdge(pose, edge)
         end
 
     end
---]]
 
 end
-
+--]]
+end
 
 -- Other callbacks
 
 function onPeriodic()
-	x,y,z = myo.getAccelWorld()
+	xP, yP, zP = myo.getOrientationWorld()
+    myo.debug('***')
+    myo.debug(xP)
+    myo.debug(yP)
+    myo.debug(zP)
+
+
+
+    --xA,yA,zA= myo.getAccelWorld()
 	--myo.debug('***')
-	--myo.debug(x)
-	--myo.debug(y)
-	--myo.debug(z)
+	--myo.debug(xA)
+	--myo.debug(yA)
+	--myo.debug(zA)
 end
 
 function onForegroundWindowChange(app, title)

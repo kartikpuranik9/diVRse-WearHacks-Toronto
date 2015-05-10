@@ -5,8 +5,7 @@ myo.setLockingPolicy('none')
 
 -- This allows a user to control their cursor using the Myo.
 -- Gestures:
--- Wave left: Left click
--- Wave right: Right click
+
 -- Fist: Click and drag
 
 -- Helpers
@@ -50,22 +49,23 @@ function onPoseEdge(pose, edge)
         end
     end
 
+-- Checks threshold of chest compression
+function checkChestCompression()
+    xA,yA,zA = myo.getAccelWorld()
+    myo.debug('***')
+    myo.debug(xA)
+    myo.debug(yA)
+    myo.debug(zA) 
+    if (0.1 > zA or zA > 0.1)) then
+        
+            myo.vibrate("medium")
+            myo.debug("Exceeded threshold")
+            
+        end
+    end
+
     -- Other poses only when active
     if myo.mouseControlEnabled() then
-
-        -- Left click
-        if pose == "waveIn" and edge == "on" then
-            myo.notifyUserAction()
-            myo.mouse("left","click")
-            myo.debug("LEFT")
-        end
-
-        -- Right click
-        if pose == "waveOut" and edge == "on" then
-            myo.notifyUserAction()
-            myo.mouse("right","click")
-            myo.debug("RIGHT")
-        end
 
         -- Click and drag
         if pose == "fist" then
@@ -73,6 +73,9 @@ function onPoseEdge(pose, edge)
                 myo.notifyUserAction()
                 myo.mouse("left","down")
                 myo.debug("DRAG HOLD")
+
+                checkChestCompression()
+
             elseif edge == "off" then -- release click
                 myo.mouse("left","up")
                 myo.debug("DRAG RELEASE")

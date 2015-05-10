@@ -26,7 +26,16 @@ controls = [[
 
 function onForegroundWindowChange(app, title)
  
-	
+ 	if platform = "MacOS" then
+ 		if title = "Publish Your Design" and (app == "com.google.Chrome") then
+ 		return true
+
+ 	elseif platform = "Windows" then
+ 		if title = 
+	if platform == "MacOS" then
+        -- Case 1: Netflix in a non-fullscreen browser
+        if title == "Netflix" and (app == "com.apple.Safari" or app == "com.google.Chrome" or app == "org.mozilla.firefox") then
+            wantActive = true
     local titleContain = string.match(title, "Perspective")
 	if (titleContain == "Perspective") then 
     return platform == "Windows" and (app == "Rhino.exe")
